@@ -29,6 +29,7 @@ public class MessageEvent extends ListenerAdapter {
         Member member = event.getMember();
         TextChannel textChannel = event.getChannel();
 
+        // Execute every registered command
         for (Map.Entry<String, CommandExecutor> entry : commandHashMap.entrySet()) {
             if (entry.getKey().equalsIgnoreCase(args[0]))
                 entry.getValue().execute(member, textChannel, message, args);
