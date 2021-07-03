@@ -1,0 +1,9 @@
+name: DiscordWhitelist
+version: 1.0.0
+author: werogg
+main: es.werogg.discordwhitelist.DiscordWhitelist
+
+commands:
+  verify:
+    description: Verify your discord account
+    usage: /verify uuid discordId channelId action

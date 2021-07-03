@@ -1,0 +1,19 @@
+# Add your discord bot token
+discord-token: 'ODYwNzE1NDQyMzc1ODg0ODEx.YN_RuA.7pEHn8lLFcaQg5coUaB1xbXACBc'
+
+# Only activate verification or whitelist
+verified-on: false
+# Whitelist already includes verification
+whitelist-on: true
+enable-spectating: true
+
+server-ids:
+  - '772858738548932638'
+
+# List of whitelisted roles (ids)
+whitelisted-roles:
+  - '772864479151128587'
+
+# List of channels where users can use !verify (ids)
+verification-channels:
+  - '772864479151128587'
