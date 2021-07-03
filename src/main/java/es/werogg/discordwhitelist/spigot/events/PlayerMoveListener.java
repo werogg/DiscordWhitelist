@@ -1,7 +1,6 @@
 package es.werogg.discordwhitelist.spigot.events;
 
 import es.werogg.discordwhitelist.managers.VerifiedUsersManager;
-import es.werogg.discordwhitelist.utils.DiscordVerificationUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
