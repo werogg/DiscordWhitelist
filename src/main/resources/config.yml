@@ -1,12 +1,22 @@
-# Add your discord bot token
-discord-token: 'ODYwNzE1NDQyMzc1ODg0ODEx.YN_RuA.7pEHn8lLFcaQg5coUaB1xbXACBc'
+# Add your discord bot token (https://discord.com/developers/applications/)
+discord-token: 'x'
 
 # Only activate verification or whitelist
 verified-on: false
+
 # Whitelist already includes verification
 whitelist-on: true
+
+# Enable non whitelisted users to spectate
 enable-spectating: true
 
+# Time to get the user kicked if not verified (in seconds)
+timeout-after: 120
+
+# Link that minecraft-discord-button will open up
+discord-link: 'https://discord.gg'
+
+# List of servers/guilds where the verification will work (ids)
 server-ids:
   - '772858738548932638'
 
@@ -14,6 +24,18 @@ server-ids:
 whitelisted-roles:
   - '772864479151128587'
 
-# List of channels where users can use !verify (ids)
+# List of channels where users can use !verify (ids - remove for all channels)
 verification-channels:
-  - '772864479151128587'
+  - '800487215654371380'
+
+# Discord accept embed color in RGB
+discord-accept-embed-color:
+  - 0
+  - 18
+  - 0
+
+# Discord accept embed color in RGB
+discord-deny-embed-color:
+  - 255
+  - 0
+  - 0
