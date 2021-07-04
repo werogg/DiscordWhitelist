@@ -1,11 +1,11 @@
 package es.werogg.discordwhitelist.managers;
 
 import es.werogg.discordwhitelist.DiscordWhitelist;
-import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class VerifiedUsersManager {
 
@@ -57,12 +57,12 @@ public class VerifiedUsersManager {
         return verifiedUsersMap.get(uuid);
     }
 
-    public String getUUIDByDiscord(String discordId) {
+    public String getUUIDByDiscord(String discordId) throws NoSuchElementException {
         return verifiedUsersMap.entrySet()
                 .stream()
                 .filter(entry -> discordId.equals(entry.getValue()))
                 .map(Map.Entry::getKey)
-                .findFirst().get();
+                .findFirst().orElse(null);
     }
 
     public void saveData() throws IOException {

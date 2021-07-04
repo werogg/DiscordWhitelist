@@ -13,6 +13,8 @@ public class PlayerMoveListener implements Listener {
         Player player = playerMoveEvent.getPlayer();
 
         if (!VerifiedUsersManager.getInstance().isVerified(player.getUniqueId().toString())) {
+            if (playerMoveEvent.getFrom().getBlockX() != playerMoveEvent.getTo().getBlockY()
+            || playerMoveEvent.getFrom().getBlockZ() != playerMoveEvent.getTo().getBlockZ())
             playerMoveEvent.setCancelled(true);
         }
     }

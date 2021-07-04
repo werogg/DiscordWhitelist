@@ -3,6 +3,7 @@ package es.werogg.discordwhitelist.spigot.commands;
 import es.werogg.discordwhitelist.DiscordWhitelist;
 import es.werogg.discordwhitelist.managers.ConfigManager;
 import es.werogg.discordwhitelist.managers.DiscordManager;
+import es.werogg.discordwhitelist.managers.TranslationsManager;
 import es.werogg.discordwhitelist.managers.VerifiedUsersManager;
 import es.werogg.discordwhitelist.utils.DiscordVerificationUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -14,6 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,7 @@ import java.util.UUID;
 public class CommandVerify implements CommandExecutor {
 
     private ConfigManager configManager = ConfigManager.getInstance();
+    private TranslationsManager translationsManager = TranslationsManager.getInstance();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -32,7 +35,7 @@ public class CommandVerify implements CommandExecutor {
                 Player player = (Player) sender;
 
                 // Command format -> /verify list
-                if (args[0].equalsIgnoreCase("list")) {
+                if (args[0].equalsIgnoreCase("list") && player.hasPermission("discordwhitelist.verify.list")) {
                     HashMap<String, String> map = VerifiedUsersManager.getInstance().getVerifiedPlayers();
 
                     // Print message
@@ -55,24 +58,25 @@ public class CommandVerify implements CommandExecutor {
                 }
 
                 // Command format -> /verify remove <username>
-                if (args[0].equalsIgnoreCase("remove")) {
+                if (args[0].equalsIgnoreCase("remove") && player.hasPermission("discordwhitelist.verify.remove")) {
                     if (args.length == 1) {
-                        player.sendMessage("Missing player to be removed");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(translationsManager.getTranslationsConfig().getString("minecraft-verify-remove-player-not-found"))));
                         return false;
                     }
                     OfflinePlayer offlinePlayer = DiscordWhitelist.getInstance().getServer().getOfflinePlayer(args[1]);
                     if (VerifiedUsersManager.getInstance().unregisterUser(offlinePlayer.getUniqueId().toString())) {
-                        player.sendMessage("User verification successfully removed.");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(translationsManager.getTranslationsConfig().getString("minecraft-user-verification-removed"))));
                         return true;
                     }
-                    player.sendMessage("User not found.");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(translationsManager.getTranslationsConfig().getString("minecraft-user-remove-not-found"))));
                     return false;
                 }
 
                 // Command format -> /verify <uuid> <discordId> <channelId> <action>
+                // Command not intended for public usage.
                 if (args.length != 4) {
 
-                    player.sendMessage("Error.");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(translationsManager.getTranslationsConfig().getString("minecraft-command-format-error"))));
                     return false;
                 }
 
@@ -104,9 +108,9 @@ public class CommandVerify implements CommandExecutor {
                         DiscordManager.getInstance().getJda().getTextChannelById(channelId)
                                 .sendMessage(
                                         new EmbedBuilder()
-                                                .setTitle("Player verified!")
-                                                .setDescription("Player " + player.getName() + " has been successfully verified.")
-                                                .setColor(2)
+                                                .setTitle(translationsManager.getTranslationsConfig().getString("discord-player-verified-title"))
+                                                .setDescription(translationsManager.getTranslationsConfig().getString("discord-player-verified-description").replace("%player%", player.getName()))
+                                                .setColor(new Color(configManager.getRaccept(), configManager.getGaccept(), configManager.getBaccept()))
                                                 .setImage("https://crafatar.com/avatars/" + player.getUniqueId())
                                                 .setFooter("Plugin made by https://twitch.tv/werogg")
                                                 .build()
@@ -133,14 +137,14 @@ public class CommandVerify implements CommandExecutor {
                         DiscordManager.getInstance().getJda().getTextChannelById(channelId)
                                 .sendMessage(
                                         new EmbedBuilder()
-                                                .setTitle("Player verification denied!")
-                                                .setDescription("Player " + player.getName() + " has denied the verification.")
-                                                .setColor(6)
+                                                .setTitle(translationsManager.getTranslationsConfig().getString("discord-player-denied-title"))
+                                                .setDescription(Objects.requireNonNull(translationsManager.getTranslationsConfig().getString("discord-player-denied-description")).replace("%player%", player.getName()))
+                                                .setColor(new Color(configManager.getRdeny(), configManager.getGdeny(), configManager.getBdeny()))
                                                 .setImage("https://crafatar.com/avatars/" + player.getUniqueId())
                                                 .setFooter("Plugin made by https://twitch.tv/werogg")
                                                 .build()
                                 ).queue();
-                        player.sendMessage("Discord verification rejected.");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(translationsManager.getTranslationsConfig().getString("minecraft-player-verification-rejected"))));
                         return false;
                     }
                 }

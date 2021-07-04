@@ -4,7 +4,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigManager {
@@ -26,8 +25,7 @@ public class ConfigManager {
 
         if (!config.exists()) {
             logManager.warn("A config file was not found, creating a new one...");
-            plugin.getConfig().options().copyDefaults(true);
-            plugin.saveConfig();
+            plugin.saveDefaultConfig();
         }
 
         logManager.info("Config file successfully loaded!");
@@ -37,8 +35,8 @@ public class ConfigManager {
         return fileConfiguration.getString("discord-token");
     }
 
-    public String getVerifyChannel() {
-        return fileConfiguration.getString("verify-channel");
+    public List<String> getVerificationChannels() {
+        return fileConfiguration.getStringList("verification-channels");
     }
 
     public Boolean getWhitelist() {
@@ -60,6 +58,37 @@ public class ConfigManager {
     public List<String> getWhitelistRoles() {
        return fileConfiguration.getStringList("whitelisted-roles");
     }
+
+    public String getDiscordLink() {
+        return fileConfiguration.getString("discord-link");
+    }
+
+    public int getTimeoutTime() {
+        return fileConfiguration.getInt("timeout-after");
+    }
+
+    public int getRaccept() {
+        return fileConfiguration.getIntegerList("discord-accept-embed-color").get(0);
+    }
+    public int getGaccept() {
+        return fileConfiguration.getIntegerList("discord-accept-embed-color").get(1);
+    }
+
+    public int getBaccept() {
+        return fileConfiguration.getIntegerList("discord-accept-embed-color").get(1);
+    }
+
+    public int getRdeny() {
+        return fileConfiguration.getIntegerList("discord-deny-embed-color").get(0);
+    }
+    public int getGdeny() {
+        return fileConfiguration.getIntegerList("discord-deny-embed-color").get(1);
+    }
+
+    public int getBdeny() {
+        return fileConfiguration.getIntegerList("discord-deny-embed-color").get(1);
+    }
+
 
     public static ConfigManager getInstance() {
         if (configManager == null) {

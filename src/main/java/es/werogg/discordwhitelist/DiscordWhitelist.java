@@ -1,11 +1,8 @@
 package es.werogg.discordwhitelist;
 
+import es.werogg.discordwhitelist.managers.*;
 import es.werogg.discordwhitelist.spigot.commands.CommandVerify;
 import es.werogg.discordwhitelist.discord.commands.VerifyCommandExecutor;
-import es.werogg.discordwhitelist.managers.ConfigManager;
-import es.werogg.discordwhitelist.managers.DiscordManager;
-import es.werogg.discordwhitelist.managers.LogManager;
-import es.werogg.discordwhitelist.managers.VerifiedUsersManager;
 import es.werogg.discordwhitelist.spigot.events.PlayerJoinedListener;
 import es.werogg.discordwhitelist.spigot.events.PlayerMoveListener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,6 +18,7 @@ public class DiscordWhitelist extends JavaPlugin {
     private final LogManager logManager = LogManager.getInstance();
     private final DiscordManager discordManager = DiscordManager.getInstance();
     private final VerifiedUsersManager verifiedUsersManager = VerifiedUsersManager.getInstance();
+    private final TranslationsManager translationsManager = TranslationsManager.getInstance();
     private static DiscordWhitelist discordWhitelist;
 
     @Override
@@ -34,6 +32,9 @@ public class DiscordWhitelist extends JavaPlugin {
         // Set plugin to config manager and do load checks
         configManager.setPlugin(this);
         configManager.loadInitial();
+
+        // Initialize translations
+        translationsManager.initTranslationsConfig();
 
         // Discord commands must be registered before initializing the bot
         registerDiscordCommands();
